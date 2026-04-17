@@ -42,12 +42,12 @@ add_subdirectory(libs)
 # examples
 add_subdirectory(examples)
 
-# Project subdirectory
+# Project subdirectory (tests disabled for Nexus integration)
 if (VIO)
-add_subdirectory(tests/demo_project)
-add_subdirectory(tests/parse_thermal_stream)
-add_subdirectory(tests/ui_demo)
-add_subdirectory(tests/parse_klv_stream)
+# add_subdirectory(tests/demo_project)
+# add_subdirectory(tests/parse_thermal_stream)
+# add_subdirectory(tests/ui_demo)  # Requires gtkmm-3.0 (not needed)
+# add_subdirectory(tests/parse_klv_stream)
 endif(VIO)
 
 if (ORUSL)
@@ -59,9 +59,9 @@ if (MB1)
 add_subdirectory(tests/mb1_project)
 endif(MB1)
 
-# Add ui_demo for VIO, ORUSL, or MB1 (only once)
-if (VIO OR ORUSL OR MB1)
-    if (NOT TARGET ui_demo)
-        add_subdirectory(tests/ui_demo)
-    endif()
-endif()
+# Add ui_demo for VIO, ORUSL, or MB1 (only once) - Disabled for Nexus integration
+# if (VIO OR ORUSL OR MB1)
+#     if (NOT TARGET ui_demo)
+#         add_subdirectory(tests/ui_demo)
+#     endif()
+# endif()

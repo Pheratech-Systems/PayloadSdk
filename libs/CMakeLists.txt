@@ -19,6 +19,10 @@ file(GLOB_RECURSE SOURCES
 
 # PayloadSDK library build
 add_library(${PROJECT_NAME} STATIC ${SOURCES}) # Static by default
+
+# Disable warnings as errors for third-party code (Nexus integration)
+target_compile_options(${PROJECT_NAME} PRIVATE -Wno-error)
+
 target_link_libraries(${PROJECT_NAME})
 target_include_directories(${PROJECT_NAME}
     PUBLIC 
