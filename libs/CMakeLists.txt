@@ -2,16 +2,6 @@ cmake_minimum_required(VERSION 3.5)
 
 project (PayloadSDK)
 
-#Include header files
-include_directories(
-            ${GST_INCLUDE_DIRS}
-            ${CF_HEADER_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/
-            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include
-            ${CMAKE_CURRENT_SOURCE_DIR}/payload-define
-            ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include/mavlink/v2.0
-        )
-
 file(GLOB_RECURSE SOURCES 
             ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/src/*.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/payloadSdkInterface.cpp 
@@ -20,17 +10,24 @@ file(GLOB_RECURSE SOURCES
 # PayloadSDK library build
 add_library(${PROJECT_NAME} STATIC ${SOURCES}) # Static by default
 
-# Disable warnings as errors for third-party code (Nexus integration)
-target_compile_options(${PROJECT_NAME} PRIVATE -Wno-error)
+# Nexus uses -Werror globally; vendor .cpp would fail the build. Silence diagnostics
+# only for this static lib (does not affect nexus / vio_interface).
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(${PROJECT_NAME} PRIVATE -w)
+elseif(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W0)
+endif()
 
 target_link_libraries(${PROJECT_NAME})
-target_include_directories(${PROJECT_NAME}
-    PUBLIC 
+
+# Mark PayloadSDK / MAVLink / GStreamer includes as SYSTEM so GCC/Clang do not
+# diagnose third-party headers (packed MAVLink structs, vendor macros, etc.).
+# INTERFACE propagates to vio_interface / nexus when linked as PUBLIC.
+target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
             ${CMAKE_CURRENT_SOURCE_DIR}
-            ${GST_INCLUDE_DIRS}
-            ${CF_HEADER_DIRS}
-            ${CMAKE_CURRENT_SOURCE_DIR}/
             ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include
             ${CMAKE_CURRENT_SOURCE_DIR}/payload-define
             ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include/mavlink/v2.0
+            ${GST_INCLUDE_DIRS}
+            ${CF_HEADER_DIRS}
         )
