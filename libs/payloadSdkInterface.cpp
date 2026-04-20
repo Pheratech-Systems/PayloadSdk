@@ -171,7 +171,7 @@ getNewMewssage(mavlink_message_t& new_msg){
 
 void
 PayloadSdkInterface::
-setPayloadCameraParam(char param_id[], uint32_t param_value, uint8_t param_type){
+setPayloadCameraParam(const char param_id[], uint32_t param_value, uint8_t param_type){
     mavlink_param_ext_set_t msg={0};
 
     current_gimbal_mode = param_value;

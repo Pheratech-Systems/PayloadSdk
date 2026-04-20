@@ -176,7 +176,7 @@ public:
     /**
      * set payload's camera parameter
      **/
-    void setPayloadCameraParam(char param_id[], uint32_t param_value, uint8_t param_type);
+    void setPayloadCameraParam(const char param_id[], uint32_t param_value, uint8_t param_type);
 
     /**
      * get all payload's settings

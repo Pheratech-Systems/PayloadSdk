@@ -28,19 +28,10 @@ message("-- ORUSL: ${ORUSL}")
 add_definitions(-DORUSL=${ORUSL})
 endif(ORUSL)
 
-find_package(PkgConfig REQUIRED)
-#Use Pkg-config to configure GStreamer
-pkg_search_module(GLIB REQUIRED glib-2.0) 
-pkg_check_modules(GST REQUIRED
-                    gstreamer-1.0
-                    gstreamer-video-1.0
-                    gstreamer-app-1.0
-                    )
-
 add_subdirectory(libs)
 
-# examples
-add_subdirectory(examples)
+# examples and GStreamer/glib deps are not needed for Nexus integration
+# add_subdirectory(examples)
 
 # Project subdirectory (tests disabled for Nexus integration)
 if (VIO)

@@ -28,6 +28,5 @@ target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC
             ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include
             ${CMAKE_CURRENT_SOURCE_DIR}/payload-define
             ${CMAKE_CURRENT_SOURCE_DIR}/third-party/mavlink/include/mavlink/v2.0
-            ${GST_INCLUDE_DIRS}
             ${CF_HEADER_DIRS}
         )
