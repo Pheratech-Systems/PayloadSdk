@@ -1,8 +1,6 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 project (PayloadSDK)
-
-set(CMAKE_BUILD_TYPE Debug)
 
 if (MB1)
 set(MB1 $ENV{MB1})
